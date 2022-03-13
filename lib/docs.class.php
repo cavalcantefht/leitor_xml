@@ -28,7 +28,9 @@ class Docs extends UnConvertNFePHP
             $docs = [];
 
             while ($arq = $diretorio->read()) {
-                if ($arq != '.' && $arq != "..") {
+                // $extension = explode('.', $arq);
+                $extension = pathinfo($arq, PATHINFO_EXTENSION);
+                if ($extension == 'xml') {
                     $xml = $this->nfexml2txt($this->dir . $arq);
                     $docs[] = [
                         "estado" => substr($arq, 0, 2),
@@ -52,6 +54,8 @@ class Docs extends UnConvertNFePHP
 
 
             $this->dados = $docs;
+
+            return $docs;
         } catch (Exception $e) {
             print_r($e);
             print("ERRO AO LER DIRETORIO");
